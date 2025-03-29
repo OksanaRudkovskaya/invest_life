@@ -3,11 +3,11 @@ from psycopg2 import sql
 from psycopg2.extras import execute_values
 
 
-class PosDB:
+class PgConnector:
     _instance = None
     def __new__(cls, *args, **kwargs):
         if not cls._instance:
-            cls._instance = super(PosDB, cls).__new__(cls)
+            cls._instance = super(PgConnector, cls).__new__(cls)
         return cls._instance
 
     def __init__(self, dbname, user, password, host, port):
@@ -33,13 +33,7 @@ class PosDB:
         self.connect()
         cursor = self._connection.cursor()
         columns = data[0].keys()
-        create_table_query = sql.SQL("CREATE TABLE IF NOT EXISTS {}.{} ({})").format(
-            sql.Identifier(schema_name), sql.Identifier(table_name),
-            sql.SQL(', ').join(
-                sql.SQL("{} {}").format(sql.Identifier(c), sql.SQL("TEXT")) for c in columns
-            )
-        )
-        cursor.execute(create_table_query)
+
         insert_query = sql.SQL("INSERT INTO {}.{} VALUES %s").format(
             sql.Identifier(schema_name),
             sql.Identifier(table_name),
