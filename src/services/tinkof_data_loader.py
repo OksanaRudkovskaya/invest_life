@@ -6,8 +6,8 @@ from tinkoff.invest.utils import now
 
 
 # Получаем данные с сайта тинькоф инвестиции
-async def fetch_candles_by_figi(figi: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
-    async with AsyncClient(TOKEN) as client:
+async def fetch_candles_by_figi(figi: str, start_date: datetime, end_date: datetime, token: str) -> pd.DataFrame:
+    async with AsyncClient(token) as client:
         all_candles = []
         current_date = start_date
 
@@ -45,13 +45,13 @@ async def fetch_candles_by_figi(figi: str, start_date: datetime, end_date: datet
         return pd.DataFrame(all_candles)
 
 
-async def get_candles(figies: list, start_date: datetime, end_date: datetime):
+async def get_candles(figies: list, start_date: datetime, end_date: datetime, token: str):
     start_date = datetime(2018, 1, 1, tzinfo=timezone.utc)
     end_date = now()
 
     tasks = []
     for figi in figies.values():
-        tasks.append(fetch_candles_by_figi(figi, start_date, end_date))
+        tasks.append(fetch_candles_by_figi(figi, start_date, end_date, token))
 
     results = await asyncio.gather(*tasks)
 
@@ -61,14 +61,15 @@ async def get_candles(figies: list, start_date: datetime, end_date: datetime):
 
 
 if __name__ == "__main__":
+    from settings import TINKOFF_TOKEN
     figies = {
         "SBER": "BBG004730N88",
         "GAZP": "BBG004730RP0",
         "AAPL": "BBG000B9XRY4",  # Apple
         "MSFT": "BBG000BPH459",  # Microsoft
     }
-    TOKEN = 't.f0ansg-0lg5F_oqmhMm_xl0DECuv9LXxEXTo30tQCC8PLjO6YaeK19vuGuQEqxQFiRWAmp92BENN2QMV1vRXiQ'
+
     start_date = start_date = datetime(2018, 1, 1, tzinfo=timezone.utc)
     end_date = now()
-    df = asyncio.run(get_candles(figies, start_date, end_date))
+    df = asyncio.run(get_candles(figies, start_date, end_date, TINKOFF_TOKEN))
 
