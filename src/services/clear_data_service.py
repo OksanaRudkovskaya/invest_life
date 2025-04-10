@@ -24,9 +24,6 @@ def iqr(df, ticker, col, ratio):
 def clear_data(df):
     # Заполняем пропуски последним значением
     df.ffill(inplace=True)
-    # Добавляем столбец с отношением цены закрытия текущего дня и предыдущего
-    df['pr_close'] = df.groupby('tic')['close'].transform(lambda x: (x - x.shift(1)) / x * 100)
-
 
     # Добавим выбросы в отдельный столбец
     df['out_bound'] = False
@@ -38,6 +35,6 @@ def clear_data(df):
         # Обозначаем выбросы
         df.loc[(df['tic'] == ticker) & (df['pr_close'] < lower_bound) & (df['Volume_perc'] < 0.4), 'out_bound'] = True
         df.loc[(df['tic'] == ticker) & (df['pr_close'] > upper_bound) & (df['Volume_perc'] < 0.4), 'out_bound'] = True
-    df.drop(['pr_close','Volume_perc'], axis=1, inplace=True)
+    df.drop('Volume_perc', axis=1, inplace=True)
     return df
 
