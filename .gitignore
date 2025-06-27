@@ -1,3 +1,9 @@
+.idea/
+.git/
+
+*.pth
+*.pkl
+
 .env
 
 # Byte-compiled / optimized / DLL files

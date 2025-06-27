@@ -1,0 +1,28 @@
+orchestrator:
+  time_start: "11:36"
+
+kafka:
+  bootstrap_servers: "rc1d-055jdnvv92da9uun.mdb.yandexcloud.net:9091"
+  topic: "tg_send"
+  user: "kafka_user361"
+  password: "AT5APRfviHxsUF8"
+  ssl_path: "C:/Users/zarocool/.kafka/YandexInternalRootCA.crt"
+
+http_server:
+  url: "http://localhost:8083/predict"
+
+download_moex_data:
+  exe_path: "../download_trade_data/download_moex_data.exe"
+  interval: "60"
+
+generate_features:
+  venv_path: "C:/Users/zarocool/PycharmProjects/invest_life/.venv/Scripts/python.exe"
+  script_path: "../features_service/feature_service.py"
+
+predict_service:
+  venv_path: "C:/Users/zarocool/PycharmProjects/invest_life/.venv/Scripts/python.exe"
+  script_path: "../predict_service/run_predict.py"
+
+
+send_message_to_telegram:
+  url: "http://localhost:8080/api/v1/send_message_to_telegram"

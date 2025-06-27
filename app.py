@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, time
 from src.connectors.pg_conn import PgConnector #Для подключения к БД
 from settings import * # Здесь хранятся данные для подключения к БД и токен
 
+
 figies = {
     "SBER": "BBG004730N88",
     "GAZP": "BBG004730RP0",

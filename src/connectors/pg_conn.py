@@ -34,7 +34,7 @@ class PgConnector:
         cursor = self._connection.cursor()
         columns = data[0].keys()
 
-        insert_query = sql.SQL("INSERT INTO {}.{} VALUES %s").format(
+        insert_query = sql.SQL("INSERT INTO {}.{}({}) VALUES %s").format(
             sql.Identifier(schema_name),
             sql.Identifier(table_name),
             sql.SQL(', ').join(map(sql.Identifier, columns))
